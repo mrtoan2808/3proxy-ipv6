@@ -17,7 +17,8 @@ install_3proxy() {
     echo "installing 3proxy"
     mkdir -p /3proxy
     cd /3proxy
-    URL="https://github.com/z3APA3A/3proxy/archive/0.9.3.tar.gz"
+    #URL="https://github.com/z3APA3A/3proxy/archive/0.9.3.tar.gz"
+    URL="https://raw.githubusercontent.com/mrtoan2808/3proxy-ipv6/master/3proxy-0.9.3.tar.gz"
     wget -qO- $URL | bsdtar -xvf-
     cd 3proxy-0.9.3
     make -f Makefile.Linux
@@ -27,7 +28,7 @@ install_3proxy() {
     cp /3proxy/3proxy-0.9.3/scripts/3proxy.service2 /usr/lib/systemd/system/3proxy.service
     systemctl link /usr/lib/systemd/system/3proxy.service
     systemctl daemon-reload
-#    systemctl enable 3proxy
+    #systemctl enable 3proxy
     echo "* hard nofile 999999" >>  /etc/security/limits.conf
     echo "* soft nofile 999999" >>  /etc/security/limits.conf
     echo "net.ipv6.conf.$main_interface.proxy_ndp=1" >> /etc/sysctl.conf
