@@ -158,6 +158,8 @@ WORKDIR="/home/proxy-installer"
 WORKDATA="${WORKDIR}/data.txt"
 mkdir $WORKDIR && cd $_
 
+USERNAME=$(random)
+PASSWORD=$(random)
 IP4=$(curl -4 -s icanhazip.com)
 IP6=$(curl -6 -s icanhazip.com | cut -f1-4 -d':')
 
@@ -181,15 +183,13 @@ else
   echo "You selected Proxy Rotate"
 fi
 
-echo "Do you want create One username:password or Multi username:password?"
+echo "Do you want create One User or Multi User?"
 echo "1 - One"
 echo "2 or (Any number) - Multi"
 read NUSER
 if [[ NUSER -eq 1 ]]
 then
   echo "You selected One User"
-  USERNAME = $(random)
-  PASSWORD = $(random)
   gen_data >$WORKDIR/data.txt
 else
   echo "You selected Multi User"
@@ -210,7 +210,7 @@ fi
 
 cat >>/etc/rc.local <<EOF
 systemctl start NetworkManager.service
-# ifup ${main_interface}
+#ifup ${main_interface}
 bash ${WORKDIR}/boot_iptables.sh
 bash ${WORKDIR}/boot_ifconfig.sh
 ulimit -n 65535
