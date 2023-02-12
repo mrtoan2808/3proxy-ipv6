@@ -178,10 +178,8 @@ read TYPE
 if [[ $TYPE -eq 1 ]]
 then
   echo "You selected Proxy Static"
-  gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
 else
   echo "You selected Proxy Rotate"
-  gen_3proxy_rotate >/usr/local/etc/3proxy/3proxy.cfg
 fi
 
 echo "Do you want create One username:password or Multi username:password?"
@@ -201,6 +199,13 @@ gen_iptables >$WORKDIR/boot_iptables.sh
 gen_ifconfig >$WORKDIR/boot_ifconfig.sh
 echo NM_CONTROLLED="no" >> /etc/sysconfig/network-scripts/ifcfg-${main_interface}
 chmod +x $WORKDIR/boot_*.sh /etc/rc.local
+
+if [[ $TYPE -eq 1 ]]
+then
+  gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
+else
+  gen_3proxy_rotate >/usr/local/etc/3proxy/3proxy.cfg
+fi
 
 cat >>/etc/rc.local <<EOF
 systemctl start NetworkManager.service
