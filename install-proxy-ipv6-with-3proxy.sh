@@ -147,7 +147,7 @@ upload_proxy() {
 }
 
 # Begin
-echo "Welcome to Install Proxy V6 by One"
+echo "Welcome to Install Proxy IPV6 by One"
 echo "Installing apps"
 yum -y install gcc net-tools bsdtar zip make >/dev/null
 
@@ -187,12 +187,12 @@ echo "2 or (Any number) - Multi"
 read NUSER
 if [[ NUSER -eq 1 ]]
 then
-  echo "You selected One"
+  echo "You selected One User"
   USERNAME = $(random)
   PASSWORD = $(random)
   gen_data >$WORKDIR/data.txt
 else
-  echo "You selected Multi"
+  echo "You selected Multi User"
   gen_data_multiuser >$WORKDIR/data.txt
 fi
 
