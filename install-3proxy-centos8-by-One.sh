@@ -144,7 +144,6 @@ upload_proxy() {
     echo "Proxy is ready! Format IP:PORT:LOGIN:PASS"
     echo "Download zip archive from: ${URL}"
     echo "Password: ${PASS}"
-
 }
 
 # Begin
@@ -223,4 +222,12 @@ bash /etc/rc.local
 gen_proxy_file_for_user
 
 upload_proxy
+
+echo "------ Done ------"
+if [[ $TYPE -eq 1 ]]
+then
+  echo "Proxy from: ${WORKDIR}/proxy.txt"
+else
+  echo "Proxy: $IP4:$FIRST_PORT:$USERNAME:$PASSWORD"
+fi
 # End
