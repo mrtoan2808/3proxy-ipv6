@@ -221,13 +221,9 @@ bash /etc/rc.local
 
 gen_proxy_file_for_user
 
+echo "------ Done ------"
+
 upload_proxy
 
-echo "------ Done ------"
-if [[ $TYPE -eq 1 ]]
-then
-  echo "Proxy from: ${WORKDIR}/proxy.txt"
-else
-  echo "Proxy: $IP4:$FIRST_PORT:$USERNAME:$PASSWORD"
-fi
+echo "Proxy local file from: ${WORKDIR}/proxy.txt"
 # End
