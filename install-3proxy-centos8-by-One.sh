@@ -189,6 +189,8 @@ read NUSER
 if [[ NUSER -eq 1 ]]
 then
   echo "You selected One"
+  USERNAME = $(random)
+  PASSWORD = $(random)
   gen_data >$WORKDIR/data.txt
 else
   echo "You selected Multi"
