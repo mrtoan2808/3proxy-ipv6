@@ -92,31 +92,6 @@ $(awk -F "/" '{print "auth strong\n" \
 EOF
 }
 
-gen_3proxy_rotate() {
-    cat <<EOF
-daemon
-maxconn 5000
-nserver 1.1.1.1
-nserver 8.8.4.4
-nserver 2001:4860:4860::8888
-nserver 2001:4860:4860::8844
-nscache 65536
-timeouts 1 5 30 60 180 1800 15 60
-setgid 65535
-setuid 65535
-stacksize 6291456 
-flush
-auth strong
-
-users $(awk -F "/" 'BEGIN{ORS="";} {print $1 ":CL:" $2 " "}' ${WORKDATA})
-
-$(awk -F "/" '{print "auth strong\n" \
-"allow " $1 "\n" \
-"proxy -6 -n -a -p" ${FIRST_PORT} " -i" $3 " -e" $5 "\n" \
-"flush\n"}' ${WORKDATA})
-EOF
-}
-
 gen_iptables() {
     cat <<EOF
     $(awk -F "/" '{print "iptables -I INPUT -p tcp --dport " $4 "  -m state --state NEW -j ACCEPT"}' ${WORKDATA}) 
@@ -201,12 +176,7 @@ gen_ifconfig >$WORKDIR/boot_ifconfig.sh
 echo NM_CONTROLLED="no" >> /etc/sysconfig/network-scripts/ifcfg-${main_interface}
 chmod +x $WORKDIR/boot_*.sh /etc/rc.local
 
-if [[ $TYPE -eq 1 ]]
-then
-  gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
-else
-  gen_3proxy_rotate >/usr/local/etc/3proxy/3proxy.cfg
-fi
+gen_3proxy >/usr/local/etc/3proxy/3proxy.cfg
 
 cat >>/etc/rc.local <<EOF
 systemctl start NetworkManager.service
